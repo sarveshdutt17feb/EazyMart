@@ -17,9 +17,12 @@ public interface UserService {
     List<UserDto> getAllUser();
 
     //get single user
-    UserDto getSingleUser(String userId);
+    UserDto getUserById(String userId);
     //get single user by email
-    UserDto getSingleUserByEmail(String email);
+    UserDto getUserByEmail(String email);
+
+    UserDto geUserByEmail(String email);
+
     //search user
     List<UserDto> searchUser(String keyword);
 
