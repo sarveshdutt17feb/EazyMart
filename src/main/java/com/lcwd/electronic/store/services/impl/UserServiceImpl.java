@@ -68,13 +68,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto geUserByEmail(String email) {
-        return null;
+    public UserDto getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(()->new RuntimeException("user not found with given email"));
+        return entityToDto(user);
     }
+
+
+
 
     @Override
     public List<UserDto> searchUser(String keyword) {
-        return null;
+        List<User> users =userRepository.findByNameContaining(keyword);
+        List<UserDto> dtoList=users.stream().map(user->entityToDto(user)).collect(Collectors.toList());
+        return dtoList;
     }
 
 
