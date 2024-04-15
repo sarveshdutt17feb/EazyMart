@@ -52,10 +52,13 @@ public class UserController {
     //get all user
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers(
-            @RequestParam(value="pageNumber",defaultValue = "0",required = false) int pageNumber,@RequestParam(value = "pageSize",defaultValue = "10",required = false) int pageSize
+            @RequestParam(value="pageNumber",defaultValue = "0",required = false) int pageNumber,
+            @RequestParam(value = "pageSize",defaultValue = "10",required = false) int pageSize,
+            @RequestParam(value="sortBy",defaultValue = "name",required = false) String sortBy,
+            @RequestParam(value = "sortDir",defaultValue = "ASC",required = false) String sortDir
     ){
 
-        List<UserDto> users =userService.getAllUser(pageNumber,pageSize);
+        List<UserDto> users =userService.getAllUser(pageNumber,pageSize,sortBy,sortDir);
         return new ResponseEntity<>(users,HttpStatus.OK);
     }
 
