@@ -8,7 +8,10 @@ import com.lcwd.electronic.store.helper.Helper;
 import com.lcwd.electronic.store.repositories.UserRepository;
 import com.lcwd.electronic.store.services.UserService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +19,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,6 +34,11 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private ModelMapper mapper;
+    @Value("${user.profile.image.path}")
+    private String imagePath;
+
+    private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Override
     public UserDto createUser(UserDto userDto) {
         //generate unique id in string format
@@ -60,7 +73,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String userId) {
         User user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("user not found with given id"));
+        //delete user profile(imagePath+imageName)
+        String fullPath = imagePath+user.getImageName();
+        try {
+            Path path = Paths.get(fullPath);
+            Files.delete(path);
+            logger.info("image deleted successfully:{}",user.getImageName());
+        }catch (NoSuchFileException ex){
+            logger.info("user image not found in folder");
+            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //delete
+
         userRepository.delete(user);
 
     }
