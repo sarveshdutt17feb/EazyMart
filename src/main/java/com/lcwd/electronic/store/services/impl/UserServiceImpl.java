@@ -2,11 +2,13 @@ package com.lcwd.electronic.store.services.impl;
 
 import com.lcwd.electronic.store.dtos.UserDto;
 import com.lcwd.electronic.store.entities.User;
+import com.lcwd.electronic.store.exceptions.ResourceNotFoundException;
 import com.lcwd.electronic.store.repositories.UserRepository;
 import com.lcwd.electronic.store.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.List;
 import java.util.UUID;
@@ -66,13 +68,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(String userId) {
-        User user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("user not found with given id"));
+        User user = userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("user not found with given id"));
         return entityToDto(user);
     }
 
     @Override
     public UserDto getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(()->new RuntimeException("user not found with given email"));
+        User user = userRepository.findByEmail(email).orElseThrow(()->new ResourceAccessException("user not found with given email"));
         return entityToDto(user);
     }
 
