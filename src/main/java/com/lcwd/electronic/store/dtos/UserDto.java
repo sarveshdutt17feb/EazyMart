@@ -1,5 +1,6 @@
 package com.lcwd.electronic.store.dtos;
 
+import com.lcwd.electronic.store.validate.ImageNameValid;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
@@ -31,7 +32,7 @@ public class UserDto {
     //@Pattern
     //Custome validator
 
-
+    @ImageNameValid
     private String imageName;
 
 }
