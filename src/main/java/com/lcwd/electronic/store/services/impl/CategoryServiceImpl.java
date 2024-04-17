@@ -15,6 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
+import static java.util.UUID.randomUUID;
+
 //so that we could inject @Service
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -24,7 +28,9 @@ public class CategoryServiceImpl implements CategoryService {
     private ModelMapper mapper;
     @Override
     public CategoryDto create(CategoryDto categoryDto) {
-
+        //creating categoryId randomly
+        String categoryId =UUID.randomUUID().toString();
+        categoryDto.setCategoryId(categoryId);
         Category category=mapper.map(categoryDto, Category.class);
         Category savedCategory = categoryRespository.save(category);
         CategoryDto dto = mapper.map(savedCategory, CategoryDto.class);
@@ -34,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto update(CategoryDto categoryDto, String categoryId) {
         //get category of given id
-        Category category = categoryRespository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found Exception"));
+        Category category = categoryRespository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found with given Id"));
         //update category details
         category.setTitle(categoryDto.getTitle());
         category.setDescription(categoryDto.getDescription());
