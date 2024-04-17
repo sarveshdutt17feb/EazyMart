@@ -2,9 +2,11 @@ package com.lcwd.electronic.store.services.impl;
 
 import com.lcwd.electronic.store.dtos.PageableResponse;
 import com.lcwd.electronic.store.dtos.ProductDto;
+import com.lcwd.electronic.store.entities.Category;
 import com.lcwd.electronic.store.entities.Product;
 import com.lcwd.electronic.store.exceptions.ResourceNotFoundException;
 import com.lcwd.electronic.store.helper.Helper;
+import com.lcwd.electronic.store.repositories.CategoryRespository;
 import com.lcwd.electronic.store.repositories.ProductRepository;
 import com.lcwd.electronic.store.services.ProductService;
 import org.modelmapper.ModelMapper;
@@ -33,6 +35,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private CategoryRespository categoryRespository;
     @Value("${product.image.path}")
     private String imagePath;
     //other dependency
@@ -115,5 +119,21 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> page = productRepository.findByTitleContaining(subTitle,pageable);
         PageableResponse<ProductDto> response = Helper.getPageableResponse(page, ProductDto.class);
         return response;
+    }
+
+    @Override
+    public ProductDto createProductWithCategory(ProductDto productDto, String categoryId) {
+        //fetch the category
+        Category category = categoryRespository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found of given Id !!"));
+        Product prodcut = mapper.map(productDto, Product.class);
+        String productId = UUID.randomUUID().toString();
+        prodcut.setProductId(productId);
+        //added date
+        prodcut.setAddedDate(new Date());
+        prodcut.setCategory(category);
+        Product savedProduct = productRepository.save(prodcut);
+        ProductDto productDto1 = mapper.map(savedProduct, ProductDto.class);
+
+        return productDto1;
     }
 }

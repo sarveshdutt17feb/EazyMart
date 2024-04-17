@@ -26,7 +26,7 @@ public class Category {
     private String description;
     private String coverImage;
     //fetch type meaning when we fetch category us time product na fetch ho product fetch honge on demand
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
     //other property if has
 
