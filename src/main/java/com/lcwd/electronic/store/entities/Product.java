@@ -27,7 +27,7 @@ public class Product {
     private int quantity;
     private int discountedPrice;
     private Date addedDate;
-    private boolean isLive;
+    private boolean live;
     private boolean stock;
 
 }

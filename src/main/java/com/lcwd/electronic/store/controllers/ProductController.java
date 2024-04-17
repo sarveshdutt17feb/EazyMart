@@ -34,8 +34,8 @@ public class ProductController {
     @DeleteMapping("/{productId}")
     public ResponseEntity<ApiResponseMessage> deleteProduct(@PathVariable String productId){
         productService.delete(productId);
-        ApiResponseMessage response = ApiResponseMessage.builder().message("Product is deleted successfully !!").status(HttpStatus.OK).success(true).build();
-        return ResponseEntity.ok(response);
+        ApiResponseMessage responseMessage = ApiResponseMessage.builder().message("Product is deleted successfully !!").status(HttpStatus.OK).success(true).build();
+        return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
 
     //get single
@@ -46,8 +46,8 @@ public class ProductController {
         return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
     //getAllLive
-    @GetMapping
-    public ResponseEntity<PageableResponse<ProductDto>> getAllLive(
+    @GetMapping("/live")
+    public ResponseEntity<PageableResponse<ProductDto>> getLive(
             @RequestParam(value = "pageNumber",defaultValue = "0",required = false)  int pageNumber,
             @RequestParam(value = "pageSize",defaultValue = "10",required = false) int pageSize,
             @RequestParam(value = "sortBy",defaultValue = "title",required = false) String sortBy,
@@ -58,25 +58,24 @@ public class ProductController {
 
         return new ResponseEntity<>(allLive,HttpStatus.OK);
     }
-
     //getAll
-    @GetMapping
-    public ResponseEntity<PageableResponse<ProductDto>> getAll(
+    @GetMapping()
+    public ResponseEntity<PageableResponse<ProductDto>> getAllProduct(
+            @RequestParam(value = "sortDir",defaultValue = "asc",required = false) String sortDir,
             @RequestParam(value = "pageNumber",defaultValue = "0",required = false)  int pageNumber,
             @RequestParam(value = "pageSize",defaultValue = "10",required = false) int pageSize,
-            @RequestParam(value = "sortBy",defaultValue = "title",required = false) String sortBy,
-            @RequestParam(value = "sortDir",defaultValue = "asc",required = false) String sortDir
+            @RequestParam(value = "sortBy",defaultValue = "title",required = false) String sortBy
 
     ){
         PageableResponse<ProductDto> allProducts = productService.getAll(pageNumber, pageSize, sortBy, sortDir);
 
         return new ResponseEntity<>(allProducts,HttpStatus.OK);
     }
-    //search all
+   // search all
 
     @GetMapping("/search/{query}")
     public ResponseEntity<PageableResponse<ProductDto>> searchProduct(
-            @PathVariable String query,
+            @PathVariable("query") String query,
             @RequestParam(value = "pageNumber",defaultValue = "0",required = false)  int pageNumber,
             @RequestParam(value = "pageSize",defaultValue = "10",required = false) int pageSize,
             @RequestParam(value = "sortBy",defaultValue = "title",required = false) String sortBy,
