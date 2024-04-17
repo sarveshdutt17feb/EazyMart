@@ -1,13 +1,13 @@
 package com.lcwd.electronic.store.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +25,9 @@ public class Category {
     @Column(name="category_desc",length = 500)
     private String description;
     private String coverImage;
+    //fetch type meaning when we fetch category us time product na fetch ho product fetch honge on demand
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Product> products = new ArrayList<>();
     //other property if has
 
 }
