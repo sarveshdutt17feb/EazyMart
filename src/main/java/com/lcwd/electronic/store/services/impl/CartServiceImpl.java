@@ -15,6 +15,7 @@ import com.lcwd.electronic.store.repositories.UserRepository;
 import com.lcwd.electronic.store.services.CartService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-
+@Service
 public class CartServiceImpl implements CartService {
     @Autowired
     private ProductRepository productRepository;
@@ -67,7 +68,7 @@ public class CartServiceImpl implements CartService {
             if (item.getProduct().getProductId().equals(productId)) {
                 //item already present in cart
                 item.setQuantity(quantity);
-                item.setTotalPrice(quantity* product.getPrice());
+                item.setTotalPrice(quantity* product.getDiscountedPrice());
                 updated.set(true);
             }
             return item;
@@ -78,7 +79,7 @@ public class CartServiceImpl implements CartService {
         if(!updated.get()) {
             CartItem cartItem = CartItem.builder()
                     .quantity(quantity)
-                    .totalPrice(quantity * product.getPrice())
+                    .totalPrice(quantity * product.getDiscountedPrice())
                     .cart(cart)
                     .product(product)
                     .build();
