@@ -114,5 +114,7 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Cart of given User not found !!"));
         CartDto cartDto = mapper.map(cart, CartDto.class);
         return cartDto;
+
     }
 }
+//
