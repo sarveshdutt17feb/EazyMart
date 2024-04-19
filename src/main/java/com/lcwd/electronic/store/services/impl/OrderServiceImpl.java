@@ -6,12 +6,17 @@ import com.lcwd.electronic.store.dtos.PageableResponse;
 import com.lcwd.electronic.store.entities.*;
 import com.lcwd.electronic.store.exceptions.BadApiRequestException;
 import com.lcwd.electronic.store.exceptions.ResourceNotFoundException;
+import com.lcwd.electronic.store.helper.Helper;
 import com.lcwd.electronic.store.repositories.CartRepository;
 import com.lcwd.electronic.store.repositories.OrderRepository;
 import com.lcwd.electronic.store.repositories.UserRepository;
 import com.lcwd.electronic.store.services.OrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.Date;
 import java.util.List;
@@ -33,9 +38,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto createOrder(CreateOrderRequest orderDto) {
         //fetch user
-        User user = userRepository.findById(orderDto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User of given id not found !!"));
+        String userId = orderDto.getUserId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User of given id not found !!"));
         //fetch cart
-        Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow(() -> new ResourceNotFoundException("Cart with given id not found on server !!"));
+        String cartId = orderDto.getCartId();
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Cart with given id not found on server !!"));
         List<CartItem> cartItems = cart.getItems();
         if(cartItems.size()<=0){
             throw new BadApiRequestException("Invalid number of items in cart !!");
@@ -83,16 +90,25 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void removeOrder(String orderId) {
-
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order with given id not found on server !! "));
+        orderRepository.delete(order);
     }
 
     @Override
     public List<OrderDto> getOrdersOfUser(String userId) {
-        return null;
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User with given id not found !!  "));
+        List<Order> orders = orderRepository.findByUser(user);
+        //list order converting dto using stream and mapper
+        List<OrderDto> ordersDto = orders.stream().map(order -> mapper.map(order, OrderDto.class)).collect(Collectors.toList());
+        return ordersDto;
     }
 
     @Override
     public PageableResponse<OrderDto> getOrders(int pagenumber, int pageSize, String sortBy, String sortDir) {
-        return null;
+        Sort sort = (sortDir.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()) :(Sort.by(sortBy).ascending());
+        Pageable pageable = PageRequest.of(pagenumber,pageSize,sort);
+        Page<Order> page = orderRepository.findAll(pageable);
+        return Helper.getPageableResponse(page, OrderDto.class);
+
     }
 }
