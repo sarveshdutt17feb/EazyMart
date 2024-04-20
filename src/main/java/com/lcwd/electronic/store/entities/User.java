@@ -2,7 +2,10 @@ package com.lcwd.electronic.store.entities;
 
 import lombok.*;
 
+<<<<<<< HEAD
 import javax.management.relation.Role;
+=======
+>>>>>>> 28a37a8600d897e7aae8e7066d3e9dcf4d3f4506
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,7 +41,6 @@ public class User {
 
     @Column(name = "user_image_name")
     private String imageName;
-
 
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
