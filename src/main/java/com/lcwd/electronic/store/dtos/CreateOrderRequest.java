@@ -1,8 +1,8 @@
 package com.lcwd.electronic.store.dtos;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,21 +15,21 @@ import java.util.List;
 @ToString
 public class CreateOrderRequest {
 
-
     @NotBlank(message = "Cart id is required !!")
     private String cartId;
-    @NotBlank(message = "User id is required !!")
+
+    @NotBlank(message = "Cart id is required !!")
     private String userId;
-    private String orderStatus="PENDING";
-    private String paymentStatus="NOTPAID";
-    @NotBlank(message = "Address is required")
 
+
+    private String orderStatus = "PENDING";
+    private String paymentStatus = "NOTPAID";
+    @NotBlank(message = "Address is required !!")
     private String billingAddress;
-    @NotBlank(message = "Phone no. is required")
-
+    @NotBlank(message = "Phone number is required !!")
     private String billingPhone;
-    @NotBlank(message = "Billing name is required")
-
+    @NotBlank(message = "Billing name  is required !!")
     private String billingName;
+
 
 }

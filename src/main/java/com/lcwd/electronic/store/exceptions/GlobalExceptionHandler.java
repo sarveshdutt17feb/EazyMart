@@ -17,36 +17,42 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    //handle resouce not found exception
-    //this method will be called when resource not found exception occurs
+
+    //handler resource not found
+    private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponseMessage> resourceNotFoundExceptionHandler(ResourceNotFoundException ex){
-        logger.info("exception handler invoked!!");
-        ApiResponseMessage response =  ApiResponseMessage.builder().message(ex.getMessage()).status(HttpStatus.NOT_FOUND).success(true).build();
-       return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
-    }
-    //for MethodArgumentNotValidException
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String,Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
-        //it will contsin list of errors here we can get error one by one
+    public ResponseEntity<ApiResponseMessage> resourceNotFoundExceptionHandler(ResourceNotFoundException ex) {
+        logger.info("Exception Handler invoked !!");
+        ApiResponseMessage response = ApiResponseMessage.builder().message(ex.getMessage()).status(HttpStatus.NOT_FOUND).success(true).build();
+        return new ResponseEntity(response, HttpStatus.NOT_FOUND);
 
-        List<ObjectError> allErrors = ex.getBindingResult().getAllErrors();
-        Map<String,Object> response = new HashMap<>();
-         allErrors.stream().forEach((objectError -> {
-             String message =objectError.getDefaultMessage();
-             String field = ((FieldError) objectError).getField();
-             response.put(field,message);
-         }));
-        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
+
+    //MethodArgumentNotValidException
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        List<ObjectError> allErrors = ex.getBindingResult().getAllErrors();
+        Map<String, Object> response = new HashMap<>();
+        allErrors.stream().forEach(objectError -> {
+            String message = objectError.getDefaultMessage();
+            String field = ((FieldError) objectError).getField();
+            response.put(field, message);
+        });
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+    }
+
 
     //handle bad api exception
     @ExceptionHandler(BadApiRequestException.class)
-    public ResponseEntity<ApiResponseMessage> resourceNotFoundExceptionHandler(BadApiRequestException ex){
+    public ResponseEntity<ApiResponseMessage> handleBadApiRequest(BadApiRequestException ex) {
         logger.info("Bad api request");
-        ApiResponseMessage response =  ApiResponseMessage.builder().message(ex.getMessage()).status(HttpStatus.BAD_REQUEST).success(false).build();
-        return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+        ApiResponseMessage response = ApiResponseMessage.builder().message(ex.getMessage()).status(HttpStatus.BAD_REQUEST).success(false).build();
+        return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+
     }
+
 }
