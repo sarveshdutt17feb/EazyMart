@@ -2,9 +2,12 @@ package com.lcwd.electronic.store.entities;
 
 import lombok.*;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -35,6 +38,8 @@ public class User {
 
     @Column(name = "user_image_name")
     private String imageName;
+
+
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private List<Order> orders=new ArrayList<>();
