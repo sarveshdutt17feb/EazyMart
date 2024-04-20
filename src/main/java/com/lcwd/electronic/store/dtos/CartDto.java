@@ -1,8 +1,5 @@
 package com.lcwd.electronic.store.dtos;
 
-import com.lcwd.electronic.store.entities.CartItem;
-import com.lcwd.electronic.store.entities.User;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -18,10 +15,6 @@ public class CartDto {
 
     private String cartId;
     private Date createdAt;
-
     private UserDto user;
-    //mapping cart items (is cart mn kitne items hn)
     private List<CartItemDto> items = new ArrayList<>();
-
-
 }
