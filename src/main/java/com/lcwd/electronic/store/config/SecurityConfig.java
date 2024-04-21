@@ -36,6 +36,8 @@ public class SecurityConfig {
         //InMemoryUserDetailManger-is the implementaion class of UserDetailService
 //        return  new InMemoryUserDetailsManager(normal,admin);
 //   }
+
+    //had to create DaoAuthenticationProvider or do configuration
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
