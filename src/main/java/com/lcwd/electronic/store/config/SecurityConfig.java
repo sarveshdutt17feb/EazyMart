@@ -40,8 +40,8 @@ public class SecurityConfig {
 //   }
 
     //had to create DaoAuthenticationProvider or do configuration
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //        http.authorizeRequests().anyRequest()
 //                .authenticated().and()
 //                .formLogin()
@@ -52,9 +52,19 @@ public class SecurityConfig {
 //                .and()
 //                .logout()
 //                .logoutUrl("/logout");
-//        return http.build();
-//    }
-//
+
+        http.csrf()
+                .disable()
+                .cors()
+                .disable()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
+        return http.build();
+    }
+
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
