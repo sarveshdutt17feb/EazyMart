@@ -2,14 +2,14 @@ package com.lcwd.electronic.store.entities;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -49,7 +49,9 @@ public class User implements UserDetails {
 //must have to implement
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+
+        Set<SimpleGrantedAuthority> authorities = this.roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toSet());
+        return authorities;
     }
     @Override
     public String getPassword(){
@@ -79,4 +81,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Set<Role> roles = new HashSet<>();
+
 }
