@@ -42,11 +42,15 @@ public class User implements UserDetails {
     @Column(name = "user_image_name")
     private String imageName;
 
-
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     private List<Order> orders=new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Set<Role> roles = new HashSet<>();
 //must have to implement
+    @OneToOne(mappedBy = "user",cascade = CascadeType.REMOVE)
+    private Cart cart;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
@@ -81,7 +85,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private Set<Role> roles = new HashSet<>();
+
 
 }
