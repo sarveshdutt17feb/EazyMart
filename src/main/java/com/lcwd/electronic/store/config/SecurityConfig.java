@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
@@ -74,6 +76,7 @@ public class SecurityConfig {
                 .permitAll()
                 .antMatchers(HttpMethod.POST,"/users")
                 .permitAll()
+                .antMatchers(HttpMethod.DELETE,"/users/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
