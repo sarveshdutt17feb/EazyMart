@@ -93,7 +93,6 @@ public class SecurityConfig {
 
         http.csrf()
                 .disable()
-
                 .authorizeRequests()
                 .antMatchers("/auth/login")
                 .permitAll()
