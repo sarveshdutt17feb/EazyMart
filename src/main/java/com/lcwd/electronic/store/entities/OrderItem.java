@@ -8,8 +8,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 @Builder
+
+@Entity
 @Table(name = "order_items")
 public class OrderItem {
 
@@ -21,7 +22,7 @@ public class OrderItem {
 
     private  int totalPrice;
 
-
+    @OneToOne
     @JoinColumn(name = "product_id")
     private  Product product;
 
