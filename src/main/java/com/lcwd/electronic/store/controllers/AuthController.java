@@ -35,6 +35,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin("*")
 public class AuthController {
     @Autowired
     private UserDetailsService userDetailsService;
@@ -91,23 +92,36 @@ public class AuthController {
     public ResponseEntity<JwtResponse> loginWithGoogle(@RequestBody Map<String,Object> data) throws IOException {
         //call to google in order to verify token
         //get the id token from request
+        //get the id token from request
         String idToken = data.get("idToken").toString();
-        //is class ke object ko pass krna google id token verifier builder ke andar
+
         NetHttpTransport netHttpTransport = new NetHttpTransport();
+
         JacksonFactory jacksonFactory = JacksonFactory.getDefaultInstance();
-        GoogleIdTokenVerifier.Builder verifier = new GoogleIdTokenVerifier.Builder(netHttpTransport,jacksonFactory).setAudience(Collections.singleton(googleClientId));
-        GoogleIdToken googleIdToken = GoogleIdToken.parse(verifier.getJsonFactory(),idToken);
+
+        GoogleIdTokenVerifier.Builder verifier = new GoogleIdTokenVerifier.Builder(netHttpTransport, jacksonFactory).setAudience(Collections.singleton(googleClientId));
+
+
+        GoogleIdToken googleIdToken = GoogleIdToken.parse(verifier.getJsonFactory(), idToken);
+
+
         GoogleIdToken.Payload payload = googleIdToken.getPayload();
-        logger.info("Payload {} ",payload);
+
+        logger.info("Payload : {}", payload);
+
         String email = payload.getEmail();
-        User user =null;
-         user = userService.findUserByEmailOptional(email).orElseThrow(null);
-        if(user==null){
-            //create a new user
-             user = this.saveUser(email,data.get("name").toString(),data.get("photoUrl").toString());
+
+        User user = null;
+
+        user = userService.findUserByEmailOptional(email).orElse(null);
+
+        if (user == null) {
+            //create new user
+            user = this.saveUser(email, data.get("name").toString(), data.get("photoUrl").toString());
         }
-        ResponseEntity<JwtResponse> jwtResponse = this.login(JwtRequest.builder().email(user.getEmail()).password(newPassword).build());
-        return jwtResponse;
+        ResponseEntity<JwtResponse> jwtResponseResponseEntity = this.login(JwtRequest.builder().email(user.getEmail()).password(newPassword).build());
+        return jwtResponseResponseEntity;
+
 
 
 
