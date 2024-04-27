@@ -41,7 +41,7 @@ public class SecurityConfig {
     private JwtAuthenticationFilter authenticationFilter;
 
     private final String[] PUBLIC_URLS = {
-
+        //bydefault swagger-ui api private we will use these url to make public
             "/swagger-ui/**",
             "/webjars/**",
             "/swagger-resources/**",
