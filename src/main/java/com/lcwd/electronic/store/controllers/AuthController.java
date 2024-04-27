@@ -12,6 +12,7 @@ import com.lcwd.electronic.store.entities.User;
 import com.lcwd.electronic.store.exceptions.BadApiRequestException;
 import com.lcwd.electronic.store.security.JwtHelper;
 import com.lcwd.electronic.store.services.UserService;
+import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-//@CrossOrigin("*")
+@Api(value = "AuthController",description = "APIS for Authentication !!")
 public class AuthController {
     @Autowired
     private UserDetailsService userDetailsService;
