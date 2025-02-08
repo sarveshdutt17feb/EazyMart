@@ -11,11 +11,13 @@ Electronic Store is a Spring Boot-based web application designed to manage and f
 - **JWT Authentication**  
 
 ## 📌 Features  
-✅ User Authentication & Authorization  
+✅ User Authentication & Authorization and role-based access 
 ✅ Product Management  
 ✅ Order & Cart Functionality  
 ✅ Secure REST APIs  
-✅ Pagination & Sorting  
+✅ Pagination & Sorting
+✅ Exception handling and logging
+
 
 ## 🔧 Setup Instructions  
 
@@ -58,5 +60,11 @@ ElectronicStore/
 Feel free to raise issues or contribute by creating pull requests!  
 
 ## 🤝 Author- Sarvesh Richhariya  
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+
 
 
