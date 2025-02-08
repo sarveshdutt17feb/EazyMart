@@ -1,6 +1,5 @@
 # 📦 Electronic Store - E-Commerce Backend  
-
-This is a backend service for an electronic store, built using **Spring Boot**, **Java 17**, and **Maven**. It provides APIs for managing products, users, orders, and more.  
+Electronic Store is a Spring Boot-based web application designed to manage and facilitate online shopping for electronic products. It provides functionalities for product listing, user management, and order processing.This is a backend service for an electronic store, built using **Spring Boot**, **Java 17**, and **Maven**. It provides APIs for managing products, users, orders, and more.  
 
 ## 🚀 Tech Stack  
 - **Java 17**  
