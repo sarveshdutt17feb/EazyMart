@@ -5,7 +5,7 @@ Electronic Store is a Spring Boot-based web application designed to manage and f
 - **Java 17**  
 - **Spring Boot**  
 - **Spring Data JPA (Hibernate)**  
-- **MySQL/PostgreSQL** (Configurable in application properties)  
+- **MySQL** (Configurable in application properties)  
 - **Maven**  
 - **Lombok**  
 - **JWT Authentication**  
