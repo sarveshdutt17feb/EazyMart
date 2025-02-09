@@ -16,6 +16,7 @@ Electronic Store is a Spring Boot-based web application designed to manage and f
 ✅ Order & Cart Functionality  
 ✅ Secure REST APIs  
 ✅ Pagination & Sorting
+
 ✅ Exception handling and logging
 
 
