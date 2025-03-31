@@ -12,10 +12,8 @@ E-Mart(Electronic Store) is a Spring Boot-based web application designed to mana
 
 ## 📌 Features  
 ✅ User Authentication & Authorization and role-based access 
-✅ Product Management  
-✅ Order & Cart Functionality  
-✅ Secure REST APIs  
-✅ Pagination & Sorting
+✅ Product Management  ✅ Order & Cart Functionality  
+✅ Secure REST APIs  ✅ Pagination & Sorting
 ✅ Exception handling and logging
 
 
