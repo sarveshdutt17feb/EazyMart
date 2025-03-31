@@ -37,7 +37,7 @@ spring.datasource.password=yourpassword
 mvn clean install  
 mvn spring-boot:run  
 ```
-4️⃣ Access APIs via Postman or Swagger (if enabled).  
+4️⃣ Access APIs via Postman or Swagger.  
 
 ## 📁 Project Structure  
 ```
@@ -55,6 +55,7 @@ ElectronicStore/
 | POST | `/products` | Add a new product |
 | GET | `/orders` | Fetch all orders |
 | POST | `/users/register` | Register a new user |
+| etc
 
 ## 🤝 Contributing  
 Feel free to raise issues or contribute by creating pull requests!  
