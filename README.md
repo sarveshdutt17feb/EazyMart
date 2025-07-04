@@ -11,10 +11,12 @@ Shopee(an E-Commerce Solution) is a Spring Boot-based web application designed t
 - **JWT Authentication**  
 
 ## 📌 Features  
-✅ User Authentication & Authorization and role-based access 
-✅ Product Management  ✅ Order & Cart Functionality  
-✅ Secure REST APIs  ✅ Pagination & Sorting
-✅ Exception handling and logging
+- User Authentication & Authorization and role-based access 
+- Product Management
+- Order & Cart Functionality
+-  Secure REST APIs
+-  Pagination & Sorting
+- Exception handling and logging
 
 
 ## 🔧 Setup Instructions  
